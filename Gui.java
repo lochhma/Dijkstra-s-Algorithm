@@ -24,12 +24,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener
     int tall = 1450;
     int wide = 1900;//backup values in case fullscreen is exited
     
-    public void Runtime(){
-        while (true){
-            //paint();
-            //mouseClicked();
-        }
-    }
+    
     
     public void mouseExited(MouseEvent e){System.out.println("exit");}
     public void mouseEntered(MouseEvent e){System.out.println("enter");}
