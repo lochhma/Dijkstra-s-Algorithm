@@ -16,10 +16,16 @@ public class Gui extends JFrame implements ActionListener,MouseListener
     JMenuBar menuBar;
     JMenu menu;
     JMenuItem menuItem;
+    
+    
+    
     public int mousex;
     public int mousey;
     public int x;
     public int y;
+    public int rad = 100;
+    
+    
     Node[] myNodes = new Node[10];
     int tall = 1450;
     int wide = 1900;//backup values in case fullscreen is exited
@@ -28,17 +34,18 @@ public class Gui extends JFrame implements ActionListener,MouseListener
     public void mouseExited(MouseEvent e){System.out.println("exit");}
 
     public void mouseEntered(MouseEvent e){System.out.println("enter");}
-
     public void mouseReleased(MouseEvent e){System.out.println("release");}
-
     public void mousePressed(MouseEvent e){System.out.println("press");}
-
     public void mouseMoved(MouseEvent e){System.out.println("move");}
 
     public void mouseClicked(MouseEvent e){
         mousex=e.getX();
         mousey=e.getY();
         System.out.println("click at"+mousex+", "+mousey);
+        for(int circleOne=0; circleOne<5; circleOne++){
+        for(int circleNum=0; circleNum<7; circleNum++){
+            Math.sqrt((myNodes[circleNum].x));
+        }}
 
         x = mousex;
         y = mousey;
@@ -53,17 +60,9 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         //g2.fillRect(9, 54,2000,2000);
         g2.setColor(Color.RED);
         for(int print=0; print<7; print++){
-            g2.fillOval(myNodes[print].x-50, myNodes[0].y-50, 100, 100);
+            g2.fillOval(myNodes[print].x-50, myNodes[0].y-50, rad, rad);
         }
         System.out.println(x);
-        //g2.drawRect(109, 154, 100, 100);
-
-        /*int xStart=9;//the offset from 0 to be visually at 0
-        int xEnd=400;
-        int yStart=54;//the offset from 0 to be visually at 0
-        int yEnd=400;
-        Line2D lin = new Line2D.Float(xStart,yStart,xEnd,yEnd);
-        g2.draw(lin);*///this is the part that handles drawing one line and is to be reimplemented thater
     } //paint
 
     public void actionPerformed(ActionEvent e) {
