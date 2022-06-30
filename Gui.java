@@ -16,36 +16,33 @@ public class Gui extends JFrame implements ActionListener,MouseListener
     JMenuBar menuBar;
     JMenu menu;
     JMenuItem menuItem;
-    
-    
+
     
     public int mousex;
     public int mousey;
     public int x;
     public int y;
     public int rad = 100;
-    
-    
+
     Node[] myNodes = new Node[10];
     int tall = 1450;
     int wide = 1900;//backup values in case fullscreen is exited
 
-    
-    public void mouseExited(MouseEvent e){System.out.println("exit");}
-
+    public void mouseExited(MouseEvent e){System.out.println("exit");}//wack
     public void mouseEntered(MouseEvent e){System.out.println("enter");}
     public void mouseReleased(MouseEvent e){System.out.println("release");}
     public void mousePressed(MouseEvent e){System.out.println("press");}
     public void mouseMoved(MouseEvent e){System.out.println("move");}
-
     public void mouseClicked(MouseEvent e){
         mousex=e.getX();
         mousey=e.getY();
         System.out.println("click at"+mousex+", "+mousey);
-        for(int circleOne=0; circleOne<5; circleOne++){
-        for(int circleNum=0; circleNum<7; circleNum++){
-            Math.sqrt((myNodes[circleNum].x));
-        }}
+        for(int circleOne=0; circleOne<7; circleOne++){
+            for(int circleNum=0; circleNum<7; circleNum++){
+                System.out.println(Math.sqrt((myNodes[circleNum].x-myNodes[circleOne].x)*(myNodes[circleNum].x-myNodes[circleOne].x)+
+                        (myNodes[circleNum].y-myNodes[circleOne].y)*(myNodes[circleNum].y-myNodes[circleOne].y)));
+            }
+        }
 
         x = mousex;
         y = mousey;
@@ -62,7 +59,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         for(int print=0; print<7; print++){
             g2.fillOval(myNodes[print].x-50, myNodes[0].y-50, rad, rad);
         }
-        System.out.println(x);
+        //System.out.println(x);
     } //paint
 
     public void actionPerformed(ActionEvent e) {
@@ -97,7 +94,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         menuItem=new JMenuItem("Load");
         menuItem.addActionListener(this);
         menu.add(menuItem);
-        
+
         menuItem=new JMenuItem("New Node");
         menuItem.addActionListener(this);
         menu.add(menuItem);
