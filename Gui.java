@@ -23,7 +23,8 @@ public class Gui extends JFrame implements ActionListener,MouseListener
     public int x;
     public int y;
     public int rad = 100;
-
+    public int circleTwo=0;
+    
     Node[] myNodes = new Node[10];
     int tall = 1450;
     int wide = 1900;//backup values in case fullscreen is exited
@@ -37,15 +38,18 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         mousex=e.getX();
         mousey=e.getY();
         System.out.println("click at"+mousex+", "+mousey);
+        //circular object collision
+
+        x = mousex;
+        y = mousey;
+
+        for(circleTwo=0; circleTwo<7;){myNodes[circleTwo] = new Node(mousex,mousey);}circleTwo++;
         for(int circleOne=0; circleOne<7; circleOne++){
             for(int circleNum=0; circleNum<7; circleNum++){
                 System.out.println(Math.sqrt((myNodes[circleNum].x-myNodes[circleOne].x)*(myNodes[circleNum].x-myNodes[circleOne].x)+
                         (myNodes[circleNum].y-myNodes[circleOne].y)*(myNodes[circleNum].y-myNodes[circleOne].y)));
             }
         }
-
-        x = mousex;
-        y = mousey;
         this.repaint();
 
     }
@@ -99,15 +103,14 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         menuItem.addActionListener(this);
         menu.add(menuItem);
         //===============================================================================================
-
-        myNodes[0] = new Node(300,150);
-        myNodes[1] = new Node(100,150);
-        myNodes[2] = new Node(200,150);
-        myNodes[3] = new Node(400,150);
-        myNodes[4] = new Node(500,150);
-        myNodes[5] = new Node(600,150);
-        myNodes[6] = new Node(700,150);
-        myNodes[7] = new Node(800,150);
+        myNodes[0] = new Node(10,10);
+        myNodes[1] = new Node(10,10);
+        myNodes[2] = new Node(10,10);
+        myNodes[3] = new Node(10,10);
+        myNodes[4] = new Node(10,10);
+        myNodes[5] = new Node(10,10);
+        myNodes[6] = new Node(10,10);
+        myNodes[7] = new Node(10,10);
 
         addMouseListener(this);//activates the mouse detection
         this.getContentPane().setPreferredSize(new Dimension(wide,tall));//needed in caase of exiting fullscreen
