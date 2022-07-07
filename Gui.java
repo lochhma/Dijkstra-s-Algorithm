@@ -16,24 +16,28 @@ public class Gui extends JFrame implements ActionListener,MouseListener
     JMenuBar menuBar;
     JMenu menu;
     JMenuItem menuItem;
+    Node[] myNodes = new Node[8];
+    int bob = 0;
 
-    
     public int mousex;
     public int mousey;
     public int x;
     public int y;
     public int rad = 100;
     public int circleTwo=0;
-    
-    Node[] myNodes = new Node[10];
+
     int tall = 1450;
     int wide = 1900;//backup values in case fullscreen is exited
 
     public void mouseExited(MouseEvent e){System.out.println("exit");}//wack
     public void mouseEntered(MouseEvent e){System.out.println("enter");}
+
     public void mouseReleased(MouseEvent e){System.out.println("release");}
+
     public void mousePressed(MouseEvent e){System.out.println("press");}
+
     public void mouseMoved(MouseEvent e){System.out.println("move");}
+
     public void mouseClicked(MouseEvent e){
         mousex=e.getX();
         mousey=e.getY();
@@ -44,12 +48,12 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         y = mousey;
 
         for(circleTwo=0; circleTwo<7;){myNodes[circleTwo] = new Node(mousex,mousey);}circleTwo++;
-        for(int circleOne=0; circleOne<7; circleOne++){
-            for(int circleNum=0; circleNum<7; circleNum++){
-                System.out.println(Math.sqrt((myNodes[circleNum].x-myNodes[circleOne].x)*(myNodes[circleNum].x-myNodes[circleOne].x)+
-                        (myNodes[circleNum].y-myNodes[circleOne].y)*(myNodes[circleNum].y-myNodes[circleOne].y)));
-            }
+        /* for(int circleOne=0; circleOne<7; circleOne++){
+        for(int circleNum=0; circleNum<7; circleNum++){
+        System.out.println(Math.sqrt((myNodes[circleNum].x-myNodes[circleOne].x)*(myNodes[circleNum].x-myNodes[circleOne].x)+
+        (myNodes[circleNum].y-myNodes[circleOne].y)*(myNodes[circleNum].y-myNodes[circleOne].y)));
         }
+        }*/
         this.repaint();
 
     }
@@ -61,7 +65,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         //g2.fillRect(9, 54,2000,2000);
         g2.setColor(Color.RED);
         for(int print=0; print<7; print++){
-            g2.fillOval(myNodes[print].x-50, myNodes[0].y-50, rad, rad);
+            g2.fillOval(myNodes[print].x-50, myNodes[print].y-50, rad, rad);
         }
         //System.out.println(x);
     } //paint
@@ -73,12 +77,18 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         System.out.println(output);
     }
 
-    /**
-     * Constructor for objects of class Usefull
-     */
     public Gui()
     {
         // initialise instance variables
+
+        myNodes[0] = new Node(10,10);
+        /*myNodes[1] = new Node(10,10);
+        myNodes[2] = new Node(10,10);
+        myNodes[3] = new Node(10,10);
+        myNodes[4] = new Node(10,10);
+        myNodes[5] = new Node(10,10);
+        myNodes[6] = new Node(10,10);
+        myNodes[7] = new Node(10,10);*/
         setTitle("Dijkstra's Algorithm");//name of the window
         //===============================================================================================
         menuBar=new JMenuBar();
@@ -103,14 +113,6 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         menuItem.addActionListener(this);
         menu.add(menuItem);
         //===============================================================================================
-        myNodes[0] = new Node(10,10);
-        myNodes[1] = new Node(10,10);
-        myNodes[2] = new Node(10,10);
-        myNodes[3] = new Node(10,10);
-        myNodes[4] = new Node(10,10);
-        myNodes[5] = new Node(10,10);
-        myNodes[6] = new Node(10,10);
-        myNodes[7] = new Node(10,10);
 
         addMouseListener(this);//activates the mouse detection
         this.getContentPane().setPreferredSize(new Dimension(wide,tall));//needed in caase of exiting fullscreen

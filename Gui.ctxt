@@ -18,5 +18,4 @@ comment8.params=e
 comment8.target=void\ actionPerformed(java.awt.event.ActionEvent)
 comment9.params=
 comment9.target=Gui()
-comment9.text=\r\n\ Constructor\ for\ objects\ of\ class\ Usefull\r\n
 numComments=10
