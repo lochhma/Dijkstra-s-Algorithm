@@ -3,6 +3,7 @@
  * @lochhma
  * @V1
  */
+import java.util.Objects;
 import java.util.Scanner;  //Keyboard input.
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +19,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener
     JMenuItem menuItem;
     int nodes = 20;
     Node[] myNodes = new Node[nodes];
+
 
     
 
@@ -49,14 +51,14 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         circleTwo++;
         if(circleTwo>=nodes){circleTwo=0;};
         System.out.println("**click at "+mousex+", "+mousey+" circle number "+circleTwo);
+        //please change this so that it will only work if the
 
-        for(int circleOne=0; circleOne<nodes; circleOne++){
         for(int circleNum=0; circleNum<nodes; circleNum++){
-        if(circleOne!=circleNum){
-            if(Math.sqrt((myNodes[circleNum].x-myNodes[circleOne].x)*(myNodes[circleNum].x-myNodes[circleOne].x)+
-                    (myNodes[circleNum].y-myNodes[circleOne].y)*(myNodes[circleNum].y-myNodes[circleOne].y))<dia){System.out.println("kill me");};};
+
+            if(Math.sqrt((myNodes[circleNum].x-mousex)*(myNodes[circleNum].x-mousex)+
+                    (myNodes[circleNum].y-mousey)*(myNodes[circleNum].y-mousey))<dia){System.out.println("kill me");};
         }
-        }
+
 
         this.repaint();
     }
@@ -74,14 +76,15 @@ public class Gui extends JFrame implements ActionListener,MouseListener
     public void actionPerformed(ActionEvent e) {
         String cmd=e.getActionCommand();
         String output = "a";
-        if(cmd == "Stats"){output="its statistics, its supposed to be boring";};
+        if(Objects.equals(cmd, "Move/Place Node")){output="its statistics, its supposed to be boring";};
         System.out.println(output);
     }
 
     public Gui()
     {
         // initialise instance variables
-
+        for(int circleNum=0; circleNum<nodes; circleNum++){
+            myNodes[circleNum] = new Node(1,1);}
 
         setTitle("Dijkstra's Algorithm");//name of the window
         //===============================================================================================
@@ -91,10 +94,6 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         menu = new JMenu("Menu");
         menuBar.add(menu);
 
-        menuItem=new JMenuItem("Stats");
-        menuItem.addActionListener(this);
-        menu.add(menuItem);
-
         menuItem=new JMenuItem("Save");
         menuItem.addActionListener(this);
         menu.add(menuItem);
@@ -103,7 +102,11 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         menuItem.addActionListener(this);
         menu.add(menuItem);
 
-        menuItem=new JMenuItem("New Node");
+        menuItem=new JMenuItem("Move/Place Node");
+        menuItem.addActionListener(this);
+        menu.add(menuItem);
+
+        menuItem=new JMenuItem("Selector");
         menuItem.addActionListener(this);
         menu.add(menuItem);
         //===============================================================================================
