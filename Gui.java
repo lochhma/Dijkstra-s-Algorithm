@@ -20,15 +20,12 @@ public class Gui extends JFrame implements ActionListener,MouseListener
     int nodes = 20;
     Node[] myNodes = new Node[nodes];
 
-
     
-
     public int mousex;
     public int mousey;
-    public int x;
-    public int y;
     public int dia = 50;
-    public int circleTwo=0;
+    public int circleTwo = 0;
+    public boolean selection = false;
 
     int tall = 1450;
     int wide = 1900;//backup values in case fullscreen is exited
@@ -47,18 +44,20 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         mousey=e.getY();
         System.out.println("*click at"+mousex+", "+mousey);
         //circular object collision
-        myNodes[circleTwo] = new Node(mousex,mousey);
-        circleTwo++;
-        if(circleTwo>=nodes){circleTwo=0;};
-        System.out.println("**click at "+mousex+", "+mousey+" circle number "+circleTwo);
+
+        if(!selection){myNodes[circleTwo] = new Node(mousex,mousey,false);
+            circleTwo++;
+            if(circleTwo>=nodes){circleTwo=0;}
+            System.out.println("**click at "+mousex+", "+mousey+" circle number "+circleTwo);}
         //please change this so that it will only work if the
+        int counter = 0;
+        if(selection){
+            for(int circleNum=0; circleNum<nodes; circleNum++){
 
-        for(int circleNum=0; circleNum<nodes; circleNum++){
-
-            if(Math.sqrt((myNodes[circleNum].x-mousex)*(myNodes[circleNum].x-mousex)+
-                    (myNodes[circleNum].y-mousey)*(myNodes[circleNum].y-mousey))<dia){System.out.println("kill me");};
-        }
-
+                if(Math.sqrt((myNodes[circleNum].x-mousex)*(myNodes[circleNum].x-mousex)+
+                    (myNodes[circleNum].y-mousey)*(myNodes[circleNum].y-mousey))<dia/2){System.out.println("kill me");myNodes[circleNum].selected=true;counter++;}
+                else if(counter>=2)myNodes[circleNum].selected=false;counter--;//this needs to select two, then when trying to select a third should only have one selected
+            }}
 
         this.repaint();
     }
@@ -67,8 +66,10 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         super.paint(g);
 
         Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(Color.RED);
+
         for(int print=0; print<nodes; print++){
+            g2.setColor(Color.RED);
+            if(myNodes[print].selected){g2.setColor(Color.BLUE);}
             g2.fillOval(myNodes[print].x-(dia/2), myNodes[print].y-(dia/2), dia, dia);
         }
     } //paint
@@ -76,7 +77,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener
     public void actionPerformed(ActionEvent e) {
         String cmd=e.getActionCommand();
         String output = "a";
-        if(Objects.equals(cmd, "Move/Place Node")){output="its statistics, its supposed to be boring";};
+        if(Objects.equals(cmd, "Move/Place Node")){output="its statistics, its supposed to be boring";{if(!selection){selection=true;}else selection=false;}}
         System.out.println(output);
     }
 
@@ -84,7 +85,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener
     {
         // initialise instance variables
         for(int circleNum=0; circleNum<nodes; circleNum++){
-            myNodes[circleNum] = new Node(1,1);}
+            myNodes[circleNum] = new Node(1,1,false);}
 
         setTitle("Dijkstra's Algorithm");//name of the window
         //===============================================================================================
