@@ -18,14 +18,18 @@ public class Gui extends JFrame implements ActionListener,MouseListener
     JMenu menu;
     JMenuItem menuItem;
     int nodes = 20;
-    Node[] myNodes = new Node[nodes];
+    int lines = 80;
 
-    
+    Node[] myNodes = new Node[nodes];
+    edges[] myEdges = new edges[lines];
+
     public int mousex;
     public int mousey;
     public int dia = 50;
     public int circleTwo = 0;
     public boolean selection = false;
+    int counter = 0;
+    int lineNum = 0;
 
     int tall = 1450;
     int wide = 1900;//backup values in case fullscreen is exited
@@ -49,16 +53,17 @@ public class Gui extends JFrame implements ActionListener,MouseListener
             circleTwo++;
             if(circleTwo>=nodes){circleTwo=0;}
             System.out.println("**click at "+mousex+", "+mousey+" circle number "+circleTwo);}
-        //please change this so that it will only work if the
-        int counter = 0;
+
         if(selection){
             for(int circleNum=0; circleNum<nodes; circleNum++){
-
-                if(Math.sqrt((myNodes[circleNum].x-mousex)*(myNodes[circleNum].x-mousex)+
-                    (myNodes[circleNum].y-mousey)*(myNodes[circleNum].y-mousey))<dia/2){System.out.println("kill me");myNodes[circleNum].selected=true;counter++;}
-                else if(counter>=2)myNodes[circleNum].selected=false;counter--;//this needs to select two, then when trying to select a third should only have one selected
+                if(Math.sqrt((myNodes[circleNum].x-mousex)*(myNodes[circleNum].x-mousex)+(myNodes[circleNum].y-mousey)*(myNodes[circleNum].y-mousey))<dia/2)
+                {System.out.println("kill me");myNodes[circleNum].selected=true;counter++;System.out.println(counter);}
+                if(counter>=2){
+                    for(int circleDel=0; circleDel<nodes; circleDel++){
+                        myNodes[circleDel].selected=false;};counter=0;}//blah blah words
             }}
 
+        //for(int circleNum=0; circleNum<nodes; circleNum++){if(myNodes[circleNum].selected==true){System.out.println(circleNum);}}
         this.repaint();
     }
 
@@ -71,6 +76,11 @@ public class Gui extends JFrame implements ActionListener,MouseListener
             g2.setColor(Color.RED);
             if(myNodes[print].selected){g2.setColor(Color.BLUE);}
             g2.fillOval(myNodes[print].x-(dia/2), myNodes[print].y-(dia/2), dia, dia);
+        }
+        for(int print=0; print<lines; print++){
+            g2.setColor(Color.BLACK);
+            Line2D lin = new Line2D.Float(myEdges[print].x, myEdges[print].y, myEdges[print].x2, myEdges[print].y2);
+            g2.draw(lin);
         }
     } //paint
 
@@ -86,6 +96,9 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         // initialise instance variables
         for(int circleNum=0; circleNum<nodes; circleNum++){
             myNodes[circleNum] = new Node(1,1,false);}
+
+        for(int lineNum=0; lineNum<lines; lineNum++){
+            myEdges[lineNum] = new edges(1,1, 1, 1);} //This initialises all the edges at the start, so it stops giving errors
 
         setTitle("Dijkstra's Algorithm");//name of the window
         //===============================================================================================
