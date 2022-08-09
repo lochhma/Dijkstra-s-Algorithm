@@ -62,7 +62,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener
                 if(Math.sqrt((myNodes[circleNum].x-mousex)*(myNodes[circleNum].x-mousex)+(myNodes[circleNum].y-mousey)*(myNodes[circleNum].y-mousey))<dia/2)
                 {System.out.println("kill me "+circleNum);myNodes[circleNum].selected=true;counter++;System.out.println(counter);}
 
-                if(counter==1){toBeX=0; toBeY=0; toBeX=myNodes[circleNum].x; toBeY=myNodes[circleNum].y;System.out.println(circleNum);}//this needs to be properly written, and needs the bit that ignores x2 and y2
+                if(counter==1){toBeX=0; toBeY=0; toBeX=myNodes[circleNum].x; toBeY=myNodes[circleNum].y;System.out.println(circleNum);}//put in the .selected for each and every time it changes a variable
 
                 if(counter>=2){
                     for(int circleDel=0; circleDel<nodes; circleDel++){
