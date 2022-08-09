@@ -25,6 +25,8 @@ public class Gui extends JFrame implements ActionListener,MouseListener
 
     public int mousex;
     public int mousey;
+    public int toBeX;
+    public int toBeY;
     public int dia = 50;
     public int circleTwo = 0;
     public boolean selection = false;
@@ -49,18 +51,23 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         System.out.println("*click at"+mousex+", "+mousey);
         //circular object collision
 
-        if(!selection){myNodes[circleTwo] = new Node(mousex,mousey,false);
+        if(!selection){
+            myNodes[circleTwo] = new Node(mousex,mousey,false);}
             circleTwo++;
-            if(circleTwo>=nodes){circleTwo=0;}
+            if(circleTwo>=nodes){circleTwo=0;
             System.out.println("**click at "+mousex+", "+mousey+" circle number "+circleTwo);}
 
         if(selection){
             for(int circleNum=0; circleNum<nodes; circleNum++){
                 if(Math.sqrt((myNodes[circleNum].x-mousex)*(myNodes[circleNum].x-mousex)+(myNodes[circleNum].y-mousey)*(myNodes[circleNum].y-mousey))<dia/2)
-                {System.out.println("kill me");myNodes[circleNum].selected=true;counter++;System.out.println(counter);}
+                {System.out.println("kill me "+circleNum);myNodes[circleNum].selected=true;counter++;System.out.println(counter);}
+
+                if(counter==1){toBeX=0; toBeY=0; toBeX=myNodes[circleNum].x; toBeY=myNodes[circleNum].y;System.out.println(circleNum);}//this needs to be properly written, and needs the bit that ignores x2 and y2
+
                 if(counter>=2){
                     for(int circleDel=0; circleDel<nodes; circleDel++){
-                        myNodes[circleDel].selected=false;};counter=0;}//blah blah words
+                        myEdges[lineNum] = new edges(myNodes[circleNum].x,myNodes[circleNum].y,toBeX,toBeY);
+                        myNodes[circleDel].selected=false;};counter=0;System.out.println(circleNum);}//blah blah words
             }}
 
         //for(int circleNum=0; circleNum<nodes; circleNum++){if(myNodes[circleNum].selected==true){System.out.println(circleNum);}}
@@ -81,7 +88,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener
             g2.setColor(Color.BLACK);
             Line2D lin = new Line2D.Float(myEdges[print].x, myEdges[print].y, myEdges[print].x2, myEdges[print].y2);
             g2.draw(lin);
-        }
+        }//From Blakes script
     } //paint
 
     public void actionPerformed(ActionEvent e) {
@@ -97,7 +104,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         for(int circleNum=0; circleNum<nodes; circleNum++){
             myNodes[circleNum] = new Node(1,1,false);}
 
-        for(int lineNum=0; lineNum<lines; lineNum++){
+        for(int lineNum=0; lineNum<lines; lineNum++){//From Blakes Script
             myEdges[lineNum] = new edges(1,1, 1, 1);} //This initialises all the edges at the start, so it stops giving errors
 
         setTitle("Dijkstra's Algorithm");//name of the window

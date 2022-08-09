@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=Node
 comment0.text=\r\n\ A\ script\ to\ allow\ multiple\ nodes\r\n\r\n\ lochhma\r\n\ @v1\r\n
-comment1.params=x\ y
-comment1.target=Node(int,\ int)
+comment1.params=x\ y\ selected
+comment1.target=Node(int,\ int,\ boolean)
 numComments=2
