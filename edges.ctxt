@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=edges
 comment0.text=\r\n\ Write\ a\ description\ of\ class\ Edges\ here.\r\n\r\n\ @author\ (your\ name)\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
-comment1.params=x\ y\ x2\ y2
-comment1.target=edges(int,\ int,\ int,\ int)
+comment1.params=pos1\ pos2
+comment1.target=edges(int,\ int)
 numComments=2
