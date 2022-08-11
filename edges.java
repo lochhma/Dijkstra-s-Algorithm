@@ -5,19 +5,15 @@
  * @author (your name)
  * @version (a version number or a date)
  */
-public class edges
-{
-    int x;
-    int y;
-    int x2;
-    int y2;
+public class edges {
 
-    public edges(int x, int y, int x2, int y2)
+    int pos1;//will have the value to point at one of the nodes
+    int pos2;//will have the value to point at the second node
+
+    public edges(int pos1, int pos2)
     {
-        this.x=x;
-        this.y=y;
-        this.x2=x2;
-        this.y2=y2;
+        this.pos1=pos1;
+        this.pos2=pos2;
 
     }
 }

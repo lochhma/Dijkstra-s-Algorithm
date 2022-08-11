@@ -4,8 +4,7 @@
  * lochhma
  * @v1
  */
-public class Node
-{
+public class Node {
     int x;
     int y;//the x and y coords on screen
 
