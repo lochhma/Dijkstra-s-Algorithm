@@ -73,7 +73,8 @@ public class Gui extends JFrame implements ActionListener,MouseListener {
                     for(int circleDel=0; circleDel<nodes; circleDel++){
                         myNodes[circleDel].selected=false;
                     };
-                    counter=0;System.out.println(circleNum);}//blah blah words
+                    counter=0;System.out.println(circleNum);
+                }
             }
         }
         this.repaint();
