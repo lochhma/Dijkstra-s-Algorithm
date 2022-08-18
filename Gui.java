@@ -101,7 +101,15 @@ public class Gui extends JFrame implements ActionListener,MouseListener {
     public void actionPerformed(ActionEvent e) {
         String cmd=e.getActionCommand();
         String output = "a";
-        if(Objects.equals(cmd, "Move/Place Node")){output="its statistics, its supposed to be boring";{if(!selection){selection=true;}else selection=false;}}
+        switch(cmd){
+            case "Select Nodes":
+                output="Selecting nodes"; selection=true;
+                break;
+            case "Place Node":
+                output="Placing nodes"; selection=false;
+                break;
+        };
+
         System.out.println(output);
     }
 
@@ -130,11 +138,11 @@ public class Gui extends JFrame implements ActionListener,MouseListener {
         menuItem.addActionListener(this);
         menu.add(menuItem);
 
-        menuItem=new JMenuItem("Move/Place Node");
+        menuItem=new JMenuItem("Place Node");
         menuItem.addActionListener(this);
         menu.add(menuItem);
 
-        menuItem=new JMenuItem("Selector");
+        menuItem=new JMenuItem("Select Nodes");
         menuItem.addActionListener(this);
         menu.add(menuItem);
         //===============================================================================================

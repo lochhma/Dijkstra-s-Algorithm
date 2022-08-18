@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.target=inputDialog
+comment1.params=question
+comment1.target=inputDialog(java.lang.String)
+comment2.params=e
+comment2.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment3.params=
+comment3.target=void\ close()
+comment4.params=
+comment4.target=java.lang.String\ getText()
+numComments=5
