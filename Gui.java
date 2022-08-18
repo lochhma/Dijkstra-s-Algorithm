@@ -84,11 +84,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener {
 
         Graphics2D g2 = (Graphics2D) g;
 
-        for(int print=0; print<nodes; print++){
-            g2.setColor(Color.RED);
-            if(myNodes[print].selected){g2.setColor(Color.BLUE);}
-            g2.fillOval(myNodes[print].x-(dia/2), myNodes[print].y-(dia/2), dia, dia);
-        }
+
         Line2D lin;
         for(int print=0; print<lines; print++){
             g2.setColor(Color.BLACK);
@@ -96,6 +92,12 @@ public class Gui extends JFrame implements ActionListener,MouseListener {
             lin = new Line2D.Float(myNodes[myEdges[print].pos1].x, myNodes[myEdges[print].pos1].y, myNodes[myEdges[print].pos2].x, myNodes[myEdges[print].pos2].y);
             g2.draw(lin);
         }//From Blakes script
+
+        for(int print=0; print<nodes; print++){
+            g2.setColor(Color.RED);
+            if(myNodes[print].selected){g2.setColor(Color.BLUE);}
+            g2.fillOval(myNodes[print].x-(dia/2), myNodes[print].y-(dia/2), dia, dia);
+        }
     } //paint
 
     public void actionPerformed(ActionEvent e) {
@@ -120,7 +122,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener {
             myNodes[circleNum] = new Node(1,1,false);}
 
         for(int lineNumber=0; lineNumber<lines; lineNumber++){//From Blakes Script
-            myEdges[lineNumber] = new edges(1,1);} //This initialises all the edges at the start, so it stops giving errors
+            myEdges[lineNumber] = new edges(nodes-1,nodes-1);} //This initialises all the edges at the start, so it stops giving errors
 
         setTitle("Dijkstra's Algorithm");//name of the window
         //===============================================================================================
@@ -155,6 +157,14 @@ public class Gui extends JFrame implements ActionListener,MouseListener {
         this.pack();
         this.toFront();
         this.setVisible(true);
+
+        inputDialog test = new inputDialog("i hate you");
+        test.setLocationRelativeTo(this);
+        test.setVisible(true);
+        String reply=test.getText();
+        System.out.println(reply);
+
+
     }
 
 }
