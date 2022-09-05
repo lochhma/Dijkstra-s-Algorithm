@@ -1,6 +1,6 @@
 /**
  * Dijkstras Algorithm
- * @lochhma
+ * @lochhma & blake
  * @V1
  */
 import java.util.Objects;
@@ -24,14 +24,20 @@ public class Gui extends JFrame implements ActionListener,MouseListener {
 
     public int mousex;
     public int mousey;
-    public int toBeX;
-    public int toBeY;
     public int dia = 50;
     public int circleTwo = 0;
-    public boolean selection = false;
+
+    int selection = 1;
+    public boolean selectStartEnd = false;
+    int outputWeight;
+    
     int counter = 0;
+    int counter2 = 0;
     int tempStor = 0;
     int lineNum = 0;
+
+    int startNode = 0;
+    int endNode = 0;
 
     int tall = 1450;
     int wide = 1900;//backup values in case fullscreen is exited
@@ -51,14 +57,14 @@ public class Gui extends JFrame implements ActionListener,MouseListener {
         System.out.println("*click at"+mousex+", "+mousey);
         //circular object collision
 
-        if(!selection){
-            myNodes[circleTwo] = new Node(mousex,mousey,false);}
+        if(selection == 1){
+            myNodes[circleTwo] = new Node(mousex,mousey,false,false);}
         circleTwo++;
         if(circleTwo>=nodes){circleTwo=0;
             System.out.println("**click at "+mousex+", "+mousey+" circle number "+circleTwo);}
         if(lineNum==lines){lineNum=0;}
 
-        if(selection){
+        if(selection == 2){//this is the function that runs whenever there is a mouse button detected on a circle and the select mode is on
             for(int circleNum=0; circleNum<nodes; circleNum++){
                 if(Math.sqrt((myNodes[circleNum].x-mousex)*(myNodes[circleNum].x-mousex)+(myNodes[circleNum].y-mousey)*(myNodes[circleNum].y-mousey))<dia/2)
                 {System.out.println("kill me "+circleNum);myNodes[circleNum].selected=true;counter++;System.out.println(counter);}
@@ -67,24 +73,63 @@ public class Gui extends JFrame implements ActionListener,MouseListener {
                     if(myNodes[circleNum].selected){
                         tempStor=circleNum;}
                 }
-                if(counter>=2){
-                    myEdges[lineNum] = new edges(circleNum,tempStor);
+                if(counter==2){
+                    myEdges[lineNum] = new edges(circleNum,tempStor,0);
                     lineNum++;
                     for(int circleDel=0; circleDel<nodes; circleDel++){
                         myNodes[circleDel].selected=false;
                     };
                     counter=0;System.out.println(circleNum);
+                    //this is where it asks for the weight for the edge when you do the 2nd selection
+                    inputDialog test = new inputDialog("Select line weight");
+                    test.setLocationRelativeTo(this);
+                    test.setVisible(true);
+                    String reply=test.getText();
+                    System.out.println("selected weight of "+reply);
+                    outputWeight = Integer.parseInt(reply);
+                    //this section inputs the weight into the class
+                    myEdges[lineNum-1].weight=outputWeight;
+                    //this is used to check all of the weights in the array, however it is very long and only used for testing purposes
+                    for(int edgeWeight=0; edgeWeight<20; edgeWeight++){
+                        System.out.println("===============");
+                        System.out.println(myEdges[edgeWeight].weight);
+                        System.out.println(myNodes[edgeWeight].x);
+                        System.out.println(myNodes[edgeWeight].y);
+                    }
                 }
+
             }
         }
+        if(selection==3){//this is the function that runs whenever there is a mouse button detected on a circle and the select mode is on
+            for(int circleNum2=0; circleNum2<nodes; circleNum2++){
+                if(Math.sqrt((myNodes[circleNum2].x-mousex)*(myNodes[circleNum2].x-mousex)+(myNodes[circleNum2].y-mousey)*(myNodes[circleNum2].y-mousey))<dia/2)
+                {System.out.println("kill me v2 "+circleNum2);myNodes[circleNum2].selectStartEnd=true;counter2++;System.out.println(counter2);}
+
+                if(counter2==1){
+                    if(myNodes[circleNum2].selectStartEnd){
+                        startNode=circleNum2;
+                    }
+                }
+                if(counter2>=2){
+                    if(myNodes[circleNum2].selectStartEnd){
+                        endNode=circleNum2;
+                    }
+                    for(int circleDel=0; circleDel<nodes; circleDel++){ // this clears all of the selected nodes so there is not more than 2 selections
+                        myNodes[circleDel].selectStartEnd=false;
+                    };
+                }
+            }
+
+        }
+
         this.repaint();
+        System.out.println(selection);
     }
 
     public void paint (Graphics g) {
         super.paint(g);
 
         Graphics2D g2 = (Graphics2D) g;
-
 
         Line2D lin;
         for(int print=0; print<lines; print++){
@@ -97,7 +142,8 @@ public class Gui extends JFrame implements ActionListener,MouseListener {
         for(int print=0; print<nodes; print++){
             g2.setColor(Color.RED);
             if(myNodes[print].selected){g2.setColor(Color.BLUE);}
-            g2.fillOval(myNodes[print].x-(dia/2), myNodes[print].y-(dia/2), dia, dia);
+            if(myNodes[print].selectStartEnd){g2.setColor(Color.GREEN);}
+            g2.fillOval(myNodes[print].x-(dia/2), myNodes[print].y-(dia/2), dia, dia);//swaps colour based on what is selected.
         }
     } //paint
 
@@ -106,13 +152,15 @@ public class Gui extends JFrame implements ActionListener,MouseListener {
         String output = "a";
         switch(cmd){
             case "Select Nodes":
-                output="Selecting nodes"; selection=true;
+                output="Selecting nodes"; selection=2;
                 break;
             case "Place Node":
-                output="Placing nodes"; selection=false;
+                output="Placing nodes"; selection=1;
+                break;
+            case "Start and End selection":
+                output="selecting start/end"; selection=3;
                 break;
         };
-
         System.out.println(output);
     }
 
@@ -120,10 +168,10 @@ public class Gui extends JFrame implements ActionListener,MouseListener {
     {
         // initialise instance variables
         for(int circleNum=0; circleNum<nodes; circleNum++){
-            myNodes[circleNum] = new Node(1,1,false);}
+            myNodes[circleNum] = new Node(1,1,false,false);}
 
         for(int lineNumber=0; lineNumber<lines; lineNumber++){//From Blakes Script
-            myEdges[lineNumber] = new edges(nodes-1,nodes-1);} //This initialises all the edges at the start, so it stops giving errors
+            myEdges[lineNumber] = new edges(nodes-1,nodes-1,0);} //This initialises all the edges at the start, so it stops giving errors
 
         setTitle("Dijkstra's Algorithm");//name of the window
         //===============================================================================================
@@ -148,6 +196,10 @@ public class Gui extends JFrame implements ActionListener,MouseListener {
         menuItem=new JMenuItem("Select Nodes");
         menuItem.addActionListener(this);
         menu.add(menuItem);
+        
+        menuItem=new JMenuItem("Start and End selection");
+        menuItem.addActionListener(this);
+        menu.add(menuItem);
         //===============================================================================================
 
         addMouseListener(this);//activates the mouse detection
@@ -159,13 +211,6 @@ public class Gui extends JFrame implements ActionListener,MouseListener {
         this.toFront();
         this.setVisible(true);
 
-        inputDialog test = new inputDialog("i hate you");
-        test.setLocationRelativeTo(this);
-        test.setVisible(true);
-        String reply=test.getText();
-        System.out.println(reply);
-
 
     }
-
 }
