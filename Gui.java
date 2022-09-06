@@ -10,7 +10,9 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.awt.event.*;
 import java.net.URL;
-import java.io.IOException;
+import java.io.File;       //Doing file stuff
+import java.io.FileWriter;
+import java.io.IOException;//Try and catch
 public class Gui extends JFrame implements ActionListener,MouseListener {
     // instance variables - replace the example below with your own
     JMenuBar menuBar;
@@ -21,6 +23,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener {
 
     Node[] myNodes = new Node[nodes];
     edges[] myEdges = new edges[lines];
+    File myFile = new File("save.txt");
 
     public int mousex;
     public int mousey;
@@ -30,11 +33,13 @@ public class Gui extends JFrame implements ActionListener,MouseListener {
     int selection = 1;
     public boolean selectStartEnd = false;
     int outputWeight;
-    
+
     int counter = 0;
     int counter2 = 0;
     int tempStor = 0;
     int lineNum = 0;
+    
+    String line = "0";
 
     int startNode = 0;
     int endNode = 0;
@@ -121,6 +126,21 @@ public class Gui extends JFrame implements ActionListener,MouseListener {
             }
 
         }
+        if(selection==4){
+            try{
+                FileWriter writer = new FileWriter(myFile);
+                
+                for(int pos=0 ;pos<nodes; pos++){writer.write(myNodes[pos].x+"\n");writer.write(myNodes[pos].y+"\n");}//prints a x location, then a y location
+                writer.write("edges"+"\n");
+                for(int pos=0 ;pos<lines; pos++){writer.write(myEdges[pos].pos1+"\n");writer.write(myEdges[pos].pos2+"\n");writer.write(myEdges[pos].weight+"\n");}//prints a x location, then a y location
+                
+                    
+                writer.flush();
+                writer.close();
+                System.out.println("Saved!");
+            } catch(IOException l){System.out.println("Uh oh, something went wrong!");};//i dont know if this will ever show but its here
+
+        }
 
         this.repaint();
         System.out.println(selection);
@@ -160,6 +180,9 @@ public class Gui extends JFrame implements ActionListener,MouseListener {
             case "Start and End selection":
                 output="selecting start/end"; selection=3;
                 break;
+            case "Save":
+                output="Saving"; selection=4;
+                break;
         };
         System.out.println(output);
     }
@@ -196,7 +219,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener {
         menuItem=new JMenuItem("Select Nodes");
         menuItem.addActionListener(this);
         menu.add(menuItem);
-        
+
         menuItem=new JMenuItem("Start and End selection");
         menuItem.addActionListener(this);
         menu.add(menuItem);
@@ -210,7 +233,6 @@ public class Gui extends JFrame implements ActionListener,MouseListener {
         this.pack();
         this.toFront();
         this.setVisible(true);
-
 
     }
 }
